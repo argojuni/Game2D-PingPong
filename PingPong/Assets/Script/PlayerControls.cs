@@ -8,7 +8,7 @@ public class PlayerControls : MonoBehaviour
     public KeyCode moveDown;
     public float speed = 10;
 
-    public Rigidbody2D rb;
+    private Rigidbody2D rb;
 
     void Start()
     {
