@@ -21,7 +21,20 @@ public class BallControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        float xVel = rb.velocity.x;
+        if(xVel < 24f && xVel > -24f && xVel != 0)
+        {
+            if (xVel > 0)
+            {
+                rb.velocity = new Vector2(20f, rb.velocity.y);
+            }
+            else
+            {
+                rb.velocity = new Vector2(-20f, rb.velocity.y);
+            }
+        }
+        Debug.Log("Velocity before" + xVel);
+        Debug.Log("Velocity after" + rb.velocity.x);
     }
 
     IEnumerator StartBall()

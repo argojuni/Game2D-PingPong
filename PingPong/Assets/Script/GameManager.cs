@@ -9,9 +9,13 @@ public class GameManager : MonoBehaviour
 
     public GUISkin theSkin;
 
+    public Transform theBall;
+
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
+        theBall = GameObject.FindGameObjectWithTag("Ball").transform;
+
         playerScore01 = 0;
         playerScore02 = 0;
     }
@@ -36,5 +40,13 @@ public class GameManager : MonoBehaviour
         GUI.skin = theSkin;
         GUI.Label(new Rect(Screen.width / 2 - 150 - 12, 25, 100, 100), "" + playerScore01);
         GUI.Label(new Rect(Screen.width / 2 + 150 - 12, 25, 100, 100), "" + playerScore02);
+
+        if(GUI.Button(new Rect(Screen.width/2-100/2, 35, 100, 32), "RESET"))
+        {
+            playerScore01 = 0;
+            playerScore02 = 0;
+
+            theBall.gameObject.SendMessage("ResetBall");
+        }
     }
 }
