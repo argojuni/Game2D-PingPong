@@ -8,6 +8,8 @@ public class BallControl : MonoBehaviour
 
     public float ballSpeed = 100;
 
+    public AudioSource sfx;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +21,7 @@ public class BallControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     IEnumerator StartBall()
@@ -27,13 +29,22 @@ public class BallControl : MonoBehaviour
         yield return new WaitForSeconds(2)  ;
         GoBall();
     }
-
     public void OnCollisionEnter2D(Collision2D col)
     {
         if (col.collider.CompareTag("Player"))
         {
             Debug.Log("It's getting called");
-            rb.AddForce(new Vector2(0f, rb.velocity.y / 2 + col.collider.attachedRigidbody.velocity.y / 3), ForceMode2D.Impulse);
+
+            float verticalVelocity = rb.velocity.y / 2 + col.collider.attachedRigidbody.velocity.y / 3;
+
+            // Mengatur penambahan kecepatan pantulan pada sumbu x
+            float additionalBounceSpeed = 10f; // Sesuaikan kecepatan tambahan pantulan sesuai keinginan
+            float horizontalVelocity = rb.velocity.x + additionalBounceSpeed * col.relativeVelocity.normalized.x;
+
+            rb.velocity = new Vector2(horizontalVelocity, verticalVelocity);
+
+            sfx.pitch = Random.Range(0.8f, 1.2f);
+            sfx.Play();
         }
     }
 
@@ -48,7 +59,7 @@ public class BallControl : MonoBehaviour
 
     public void GoBall()
     {
-        float randomNumber = Random.Range(0f, 2f);
+        float randomNumber = Random.Range(0f, 1f);
         if (randomNumber <= 0.5f)
         {
             rb.AddForce(new Vector2(ballSpeed, 10f));
